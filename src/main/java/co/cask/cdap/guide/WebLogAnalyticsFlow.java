@@ -1,11 +1,12 @@
 package co.cask.cdap.guide;
 
+import co.cask.cdap.api.flow.Flow;
 import co.cask.cdap.api.flow.FlowSpecification;
 
 /**
- *
+ * WebLogAnalyticsFlow with a single Flowlet {@link WebLogAnalyticsFlowlet}
  */
-public class WebLogAnalyticsFlow implements co.cask.cdap.api.flow.Flow {
+public class WebLogAnalyticsFlow implements Flow {
 
   @Override
   public FlowSpecification configure() {

@@ -16,7 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 /**
- *
+ * Handler with a single endpoint that returns the map of web-page and their corresponding page view count.
  */
 public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
   @UseDataSet("pageViewTable")

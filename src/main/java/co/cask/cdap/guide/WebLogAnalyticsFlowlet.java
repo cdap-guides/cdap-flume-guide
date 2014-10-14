@@ -12,7 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Flowlet recevies weblog as stream event; parses and extracts the requested page and increments the pagecount for
+ * the webpage in the dataset
  */
 public class WebLogAnalyticsFlowlet extends AbstractFlowlet {
   static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
