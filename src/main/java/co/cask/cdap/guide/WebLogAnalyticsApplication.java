@@ -33,7 +33,7 @@ public class WebLogAnalyticsApplication extends AbstractApplication {
   @Override
   public void configure() {
     setName("WebLogAnalyticsApp");
-    setDescription("WebLog Analytics Application to see Pageview status using the Cask Data Application Platform");
+    setDescription("WebLog Analytics Application to see Pageview stats using the Cask Data Application Platform");
     addStream(new Stream("webLogStream"));
     createDataset("pageViewTable", KeyValueTable.class);
     addFlow(new WebLogAnalyticsFlow());
