@@ -70,9 +70,9 @@ WebLogAnalyticsFlow makes use of  WebLogAnalyticsFlowlet::
        return FlowSpecification.Builder.with().
         setName("WebLogAnalyticsFlow").
         setDescription("A flow that collects and processes weblogs").
-        withFlowlets().add("logAnalytics", new
+        withFlowlets().add("WebLogAnalyticsFlowlet", new
                             WebLogAnalyticsFlowlet()).
-        connect().fromStream("webLogStream").to("logAnalytics").
+        connect().fromStream("webLogStream").to("WebLogAnalyticsFlowlet").
         build();
   
     }
@@ -196,11 +196,13 @@ Now let’s configure the flow by creating the configuration file weblog-analysi
 Replace <cdap-flume-ingest-guide-basedir> in the configuration file to point to the cdap-flume-ingest-guide sources. 
 Alternatively, you can point it to /tmp/access.log and create /tmp/access.log with following sample contents::
 
-  192.168.99.124 - - [14/Jan/2014:08:12:02 -0400] "GET /?C=M;O=A HTTP/1.1" 200 393 "-" "Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)"  
-  192.168.58.16 - - [14/Jan/2014:08:50:05 -0400] "GET / HTTP/1.0" 404 208 "http://www.example.org" "MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR"  
-  192.168.12.72 - - [14/Jan/2014:10:06:52 -0400] "GET /products HTTP/1.1" 200 581 "http://www.example.org" "Chrome/19.0.1084.15 Safari/536.5"
-  192.168.12.72 - - [14/Jan/2014:10:06:52 -0400] "GET /careers HTTP/1.1" 500 183 "http://www.example.org" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.15 Safari/536.5"  
-  192.168.12.72 - - [14/Jan/2014:10:07:00 -0400] "GET /enterprise HTTP/1.1" 200 972 "http://www.example.org" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.15 Safari/536.5"
+  192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 392 "http://www.example.org" "Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)"
+  192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/login HTTP/1.1" 404 182 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+  192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 394 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/login HTTP/1.0" 404 208 "http://www.example.org" "example v4.10.5 (www.example.org)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/signup HTTP/1.0" 200 809 "http://www.example.org" "example v4.10.5 (www.example.org)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://www.example.org/ HTTP/1.0" 200 809 "-" "example v4.10.5 (www.example.org)"
+
 
 Run Flume Flow with Agent
 -------------------------
@@ -217,8 +219,9 @@ WebLogAnalyticsService exposes HTTP endpoint for you to query the results of pro
 
   curl -v -X GET http://localhost:10000/v2/apps/WebLogAnalyticsApp/services/WebLogAnalyticsService/methods/views
 
-Example Output:
-  {}
+Example Output::
+
+  {https://www.example.org/=1, https://accounts.example.org/signup=3, https://accounts.example.org/login=2}
 
 Related Topics
 --------------
