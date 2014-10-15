@@ -237,18 +237,3 @@ Share & Discuss!
 ----------------
 <Like> <Tweet> <Share> <Discuss>
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
