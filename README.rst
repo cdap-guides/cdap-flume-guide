@@ -1,7 +1,7 @@
 Ingesting Data into CDAP using Apache Flume
 ===========================================
 
-Ingesting real time logs data into Hadoop for analysis is a common use case which is solved with Apache Flume. In this guide you will learn how to ingest data into CDAP with Apache Flume and process it in real-time.
+Ingesting real time logs data into Hadoop for analysis is a common use case which is solved with `Apache Flume <http://flume.apache.org/>`__. In this guide you will learn how to ingest data into CDAP with Apache Flume and process it in real-time.
 The Cask Data Application Platform (CDAP) provides a number of pre-packaged Datasets, which make it easy to store and retrieve data using best-practices based implementations of common data access patterns.  In this guide, you will learn how to process and store timeseries data, using the example of real-time sensor data from a traffic monitor network.
 
 What You Will Build
@@ -9,9 +9,9 @@ What You Will Build
 
 You will build a CDAP application that uses web logs aggregated by Flume to find page view counts. You will:
 
-* Configure Flume to ingest data into CDAP Stream
-* Build real-time Flow to process ingested web logs
-* Build a Service to serve analysis results via HTTP
+* Configure Flume to ingest data into `CDAP Stream <http://docs.cask.co/cdap/current/en/dev-guide.html#streams>`__
+* Build real-time `Flow <http://docs.cask.co/cdap/current/en/dev-guide.html#flows>`__ to process ingested web logs
+* Build a `Service <http://docs.cask.co/cdap/current/en/dev-guide.html#services>`__ to serve analysis results via HTTP
 
 What you will need
 ------------------
@@ -28,8 +28,8 @@ In this case feel free to skip following two sections and jump to Build and Run 
 
 Application Design
 ------------------
-Web logs are aggregated using Flume which pushes the data to a webLogs Stream using special StreamSink from cdap-ingest library. 
-Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews Dataset. 
+Web logs are aggregated using Flume which pushes the data to a webLogs Stream using special StreamSink from `cdap-ingest <https://github.com/caskdata/cdap-ingest>`__ library. 
+Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews `Dataset <http://docs.cask.co/cdap/current/en/dev-guide.html#datasets>`__. 
 WebLogAnalyticsService makes computation results that stored in pageViews Dataset accessible via HTTP.
 
 <diagram>
@@ -169,7 +169,7 @@ Download CDAP flume sink jar::
   cd <flume-base-dir>/lib
   curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.0.1/cdap-flume-1.0.1.jar
 
-CDAP Flume sink requires newer version of Guava library than that is usually shipped with Flume. You need to replace the existing guava library with guava-17.0.jar::
+CDAP Flume sink requires newer version of `Guava <https://code.google.com/p/guava-libraries/>`__ library than that is usually shipped with Flume. You need to replace the existing guava library with guava-17.0.jar::
 
   mkdir <flume-base-dir>/backup-lib
   mv <flume-base-dir>/lib/guava-<existing-version>.jar  <flume-base-dir>/backup-lib
