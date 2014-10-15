@@ -20,20 +20,16 @@ import co.cask.cdap.api.data.stream.Stream;
 import co.cask.cdap.api.dataset.lib.KeyValueTable;
 
 /**
- * This is a simple WebLogAnalyticsApplication example that uses one stream, one dataset, one flow and one service.
- * <uL>
- *   <li>A stream to send web logs to.</li>
- *   <li>A flow with a single flowlet that reads the stream and stores the webpage and their view-count
- *   in a KeyValueTable</li>
- *   <li>A service the returns the summary of web page and their page view count from the KeyValueTable </li>
- * </uL>
+ * This is a simple WebLogAnalyticsApplication example that receives web logs from a Stream,
+ * performs page view analytics based on the logs and persists them in a dataset, the application uses a service to
+ * expose an HTTP endpoint to retrieve the analytics.
  */
 public class WebLogAnalyticsApplication extends AbstractApplication {
 
   @Override
   public void configure() {
     setName("WebLogAnalyticsApp");
-    setDescription("WebLog Analytics Application to see Pageview stats using the Cask Data Application Platform");
+    setDescription("Application to perform web log analytics using the Cask Data Application Platform");
     addStream(new Stream("webLogStream"));
     createDataset("pageViewTable", KeyValueTable.class);
     addFlow(new WebLogAnalyticsFlow());

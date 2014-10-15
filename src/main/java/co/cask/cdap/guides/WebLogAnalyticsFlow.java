@@ -12,7 +12,7 @@ public class WebLogAnalyticsFlow implements Flow {
   public FlowSpecification configure() {
     return FlowSpecification.Builder.with().
       setName("WebLogAnalyticsFlow").
-      setDescription("A flow that collects and processes weblogs").
+      setDescription("A flow that collects and performs web log analysis").
       withFlowlets().add("logAnalytics", new WebLogAnalyticsFlowlet()).
       connect().fromStream("webLogStream").to("logAnalytics").
       build();
