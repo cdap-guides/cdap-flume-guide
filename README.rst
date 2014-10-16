@@ -23,8 +23,8 @@ What you will need
 Let’s Build It!
 ---------------
 The following sections will guide you through configuring and running Flume , and  implementing an application from scratch. 
-If you want to deploy and run application right away, you can clone sources from this github repository 
-In this case feel free to skip following two sections and jump to Build and Run Application section
+If you want to deploy and run application right away, you can clone sources from this github repository. 
+In this case feel free to skip following two sections and jump to Build and Run Application section.
 
 Application Design
 ------------------
@@ -63,22 +63,23 @@ WebLogAnalyticsApplication declares that the application has a stream, flow, ser
     }
   }
   
-WebLogAnalyticsFlow makes use of  PageViewCounterFlowlet:
+WebLogAnalyticsFlow makes use of PageViewCounterFlowlet:
 
 .. code:: java
 
-public class WebLogAnalyticsFlow implements Flow {
-
-  @Override
-  public FlowSpecification configure() {
-    return FlowSpecification.Builder.with().
-      setName("WebLogAnalyticsFlow").
-      setDescription("A flow that collects and performs web log analysis").
-      withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
-      connect().fromStream("webLogStream").to("pageViewCounter").
-      build();
-   }
+  public class WebLogAnalyticsFlow implements Flow {
+    
+    @Override
+    public FlowSpecification configure() {
+      return FlowSpecification.Builder.with().
+        setName("WebLogAnalyticsFlow").
+        setDescription("A flow that collects and performs web log analysis").
+        withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
+        connect().fromStream("webLogStream").to("pageViewCounter").
+        build();
+    }
   }
+
 The PageViewCounterFlowlet receives the log events from webLogsStream. It parses the log event and extracts the requested page URL from the log event. 
 Then it increments respective counter in pageViewTable Dataset:
 
@@ -163,11 +164,11 @@ In the provided sources for this guide you can find Apache web server’s access
 
 In order to configure Apache Flume to push web logs to a CDAP Stream you need to create a simple flow which includes:
 
-* source that tail access logs
+* Flume source that tail access logs
 * in-memory channel
-* sink that sends log lines into CDAP Stream
+* Flume sink that sends log lines into CDAP Stream
 
-In this example we will configure the source to tail access.log and sink to send data to  webLogsStream.
+In this example we will configure the source to tail access.log and sink to send data to webLogsStream.
 
 Download Flume
 --------------
@@ -175,7 +176,7 @@ Download Flume
 
 * Once downloaded , extract the archive into <flume-base-dir>::
 
-  tar -xvf apache-flume-*-bin.tar.gz
+    tar -xvf apache-flume-*-bin.tar.gz
   
 Configure Flume Flow
 --------------------
@@ -224,7 +225,7 @@ To run a Flume flow, start an agent with flow’s configuration::
   cd <flume-base-dir>
   ./bin/flume-ng agent --conf conf --conf-file conf/weblog-analysis.conf  --name a1 -Dflume.root.logger=INFO,console
 
-Once agent is started it begins to push data to a CDAP Stream. The CDAP application started earlier processes the log events as soon as data is received.Now you can query computed web page views statistics.
+Once agent is started it begins to push data to a CDAP Stream. The CDAP application started earlier processes the log events as soon as data is received.Now you can query computed page views statistics.
 
 Query Results
 -------------
