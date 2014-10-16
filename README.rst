@@ -245,7 +245,6 @@ Extend This Example
 -------------------
 To make application more useful, you can try to extend it by:
 
-* persisting logs and their stats into a dataset in PageViewCounterFlowlet
 * find top visited pages by maintaining top pages in a dataset and updating them from PageViewCounterFlowlet
 * calculate bounce ratio of web pages with batch processing
 
