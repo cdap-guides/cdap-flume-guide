@@ -208,7 +208,7 @@ Now let’s configure the flow by creating the configuration file weblog-analysi
   a1.channels.c1.capacity = 1000
   a1.channels.c1.transactionCapacity = 100
 
-Replace <cdap-flume-ingest-guide-basedir> in the configuration file to point to the cdap-flume-ingest-guide resources. 
+Replace <cdap-flume-ingest-guide-basedir> in the configuration file to point to the cdap-flume-ingest-guide directory.
 Alternatively, you can point it to /tmp/access.log and create /tmp/access.log with following sample contents::
 
   192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 392 "http://www.example.org" "Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)"
