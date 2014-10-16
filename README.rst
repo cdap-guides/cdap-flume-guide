@@ -17,8 +17,8 @@ What you will need
 ------------------
 * `JDK 6 or JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
 * `Apache Maven 3.0+ <http://maven.apache.org/download.cgi>`__
-*  CDAP SDK
-*  `Apache Flume <http://flume.apache.org/download.html>`__
+* `CDAP SDK <http://docs.cdap.io/cdap/current/en/getstarted.html#download-and-setup>`__
+* `Apache Flume <http://flume.apache.org/download.html>`__
 
 Let’s Build It!
 ---------------
