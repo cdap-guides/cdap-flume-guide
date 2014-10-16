@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
  * Parses and extracts the requested page , it then increments the page-view count for the requested page
  * in the pageViewTable
  */
-public class WebLogAnalyticsFlowlet extends AbstractFlowlet {
-  private static final Logger LOG = LoggerFactory.getLogger(WebLogAnalyticsFlowlet.class);
+public class PageViewCounterFlowlet extends AbstractFlowlet {
+  private static final Logger LOG = LoggerFactory.getLogger(PageViewCounterFlowlet.class);
   private static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
     //   IP       id    user      date          request     code     size    referrer    user agent
     "^([\\d.]+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]+)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"");
