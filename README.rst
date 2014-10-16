@@ -152,9 +152,9 @@ Note that the remaining commands assume that the cdap-cli.sh script is available
 
 We can then deploy the application to a standalone CDAP installation and start the flow and service::
 
-  bin/cdap-cli.sh deploy app WebLogAnalyticsApplication.jar
-  bin/cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-  bin/cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
+  cdap-cli.sh deploy app WebLogAnalyticsApplication.jar
+  cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow is started, it is ready to receive the web logs from stream. Now let’s configure and start Flume to push web logs into a Stream.
 
