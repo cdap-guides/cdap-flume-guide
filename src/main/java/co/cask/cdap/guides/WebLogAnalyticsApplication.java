@@ -29,7 +29,7 @@ public class WebLogAnalyticsApplication extends AbstractApplication {
   @Override
   public void configure() {
     setName("WebLogAnalyticsApp");
-    addStream(new Stream("webLogStream"));
+    addStream(new Stream("webLogs"));
     createDataset("pageViewTable", KeyValueTable.class);
     addFlow(new WebLogAnalyticsFlow());
     addService("WebLogAnalyticsService", new WebLogAnalyticsHandler());

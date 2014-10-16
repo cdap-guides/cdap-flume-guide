@@ -14,7 +14,7 @@ public class WebLogAnalyticsFlow implements Flow {
       setName("WebLogAnalyticsFlow").
       setDescription("A flow that collects and performs web log analysis").
       withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
-      connect().fromStream("webLogStream").to("pageViewCounter").
+      connect().fromStream("webLogs").to("pageViewCounter").
       build();
   }
 }

@@ -28,7 +28,7 @@ In this case feel free to skip following two sections and jump to Build and Run 
 
 Application Design
 ------------------
-Web logs are aggregated using Flume which pushes the data to a webLogs Stream using special StreamSink from `cdap-ingest <https://github.com/caskdata/cdap-ingest>`__ library. 
+Web logs are aggregated using Flume which pushes the data to a webLogs stream using special StreamSink from `cdap-ingest <https://github.com/caskdata/cdap-ingest>`__ library. 
 Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews Dataset. 
 WebLogAnalyticsService makes computation results that stored in pageViews Dataset accessible via HTTP.
 
@@ -56,7 +56,7 @@ WebLogAnalyticsApplication declares that the application has a stream, flow, ser
     @Override
     public void configure() {
       setName("WebLogAnalyticsApp");      
-      addStream(new Stream("webLogsStream"));
+      addStream(new Stream("webLogs"));
       createDataset("pageViewTable", KeyValueTable.class);
       addFlow(new WebLogAnalyticsFlow());
       addService("WebLogAnalyticsService", new WebLogAnalyticsHandler());
@@ -80,7 +80,7 @@ WebLogAnalyticsFlow makes use of PageViewCounterFlowlet:
     }
   }
 
-The PageViewCounterFlowlet receives the log events from webLogsStream. It parses the log event and extracts the requested page URL from the log event. 
+The PageViewCounterFlowlet receives the log events from webLogs stream. It parses the log event and extracts the requested page URL from the log event. 
 Then it increments respective counter in pageViewTable Dataset:
 
 .. code:: java
@@ -168,7 +168,7 @@ In order to configure Apache Flume to push web logs to a CDAP Stream you need to
 * in-memory channel
 * Flume sink that sends log lines into CDAP Stream
 
-In this example we will configure the source to tail access.log and sink to send data to webLogsStream.
+In this example we will configure the source to tail access.log and sink to send data to webLogs stream.
 
 Download Flume
 --------------
@@ -203,7 +203,7 @@ Now let’s configure the flow by creating the configuration file weblog-analysi
   a1.sinks.k1.channel = c1
   a1.sinks.k1.host  = 127.0.0.1
   a1.sinks.k1.port = 10000
-  a1.sinks.k1.streamName = webLogsStream
+  a1.sinks.k1.streamName = webLogs
   a1.channels.c1.type = memory
   a1.channels.c1.capacity = 1000
   a1.channels.c1.transactionCapacity = 100
