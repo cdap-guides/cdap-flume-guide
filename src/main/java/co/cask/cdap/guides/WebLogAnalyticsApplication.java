@@ -29,7 +29,6 @@ public class WebLogAnalyticsApplication extends AbstractApplication {
   @Override
   public void configure() {
     setName("WebLogAnalyticsApp");
-    setDescription("Application to perform web log analytics using the Cask Data Application Platform");
     addStream(new Stream("webLogStream"));
     createDataset("pageViewTable", KeyValueTable.class);
     addFlow(new WebLogAnalyticsFlow());

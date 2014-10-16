@@ -16,14 +16,14 @@ You will build a CDAP application that uses web logs aggregated by Flume to find
 What you will need
 ------------------
 * `JDK 6 or JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
-* `Apache Maven 3.0+ <http://www.google.com/url?q=http%3A%2F%2Fmaven.apache.org%2F&sa=D&sntz=1&usg=AFQjCNGhqqn4qI1Qjh2sLRjeezXuA2e20Q>`__
+* `Apache Maven 3.0+ <http://maven.apache.org/download.cgi>`__
 *  CDAP SDK
-*  `Apache Flume <http://www.google.com/url?q=http%3A%2F%2Fflume.apache.org%2Fdownload.html&sa=D&sntz=1&usg=AFQjCNEvincOaiFtXXxkdGgo3cOUqrsJtg>`__
+*  `Apache Flume <http://flume.apache.org/download.html>`__
 
 Let’s Build It!
 ---------------
 The following sections will guide you through configuring and running Flume , and  implementing an application from scratch. 
-If you want to deploy and run application right away, you can download full sources and binaries of the application at <link>. 
+If you want to deploy and run application right away, you can clone sources from this github repository 
 In this case feel free to skip following two sections and jump to Build and Run Application section
 
 Application Design
@@ -44,44 +44,48 @@ The recommended way to build a CDAP application from scratch is to use maven pro
     <app_dir>/pom.xml
     <app_dir>/src/main/java/co/cask/cdap/guide/WebLogAnalyticsApplication.java
     <app_dir>/src/main/java/co/cask/cdap/guide/WebLogAnalyticsFlow.java
-    <app_dir>/src/main/java/co/cask/cdap/guide/WebLogAnalyticsFlowlet.java
+    <app_dir>/src/main/java/co/cask/cdap/guide/PageViewCounterFlowlet.java
     <app_dir>/src/main/java/co/cask/cdap/guide/WebLogAnalyticsHandler.java
 
-WebLogAnalyticsApplication declares that the application has a stream, flow, service and uses a dataset::
+WebLogAnalyticsApplication declares that the application has a stream, flow, service and uses a dataset:
 
+.. code:: java
+  
   public class WebLogAnalyticsApplication extends AbstractApplication {
   
     @Override
     public void configure() {
-      setName("WebLogAnalyticsApp");
-      setDescription("Application to perform web log analytics using the Cask Data Application Platform");
-      addStream(new Stream("webLogStream"));
+      setName("WebLogAnalyticsApp");      
+      addStream(new Stream("webLogsStream"));
       createDataset("pageViewTable", KeyValueTable.class);
       addFlow(new WebLogAnalyticsFlow());
       addService("WebLogAnalyticsService", new WebLogAnalyticsHandler());
     }
   }
   
-WebLogAnalyticsFlow makes use of  WebLogAnalyticsFlowlet::
+WebLogAnalyticsFlow makes use of  PageViewCounterFlowlet:
 
-  public class WebLogAnalyticsFlow implements Flow {
-    @Override
-    public FlowSpecification configure() {
-       return FlowSpecification.Builder.with().
-        setName("WebLogAnalyticsFlow").
-        setDescription("A flow that collects and processes weblogs").
-        withFlowlets().add("WebLogAnalyticsFlowlet", new
-                            WebLogAnalyticsFlowlet()).
-        connect().fromStream("webLogStream").to("WebLogAnalyticsFlowlet").
-        build();
-  
-    }
+.. code:: java
+
+public class WebLogAnalyticsFlow implements Flow {
+
+  @Override
+  public FlowSpecification configure() {
+    return FlowSpecification.Builder.with().
+      setName("WebLogAnalyticsFlow").
+      setDescription("A flow that collects and performs web log analysis").
+      withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
+      connect().fromStream("webLogStream").to("pageViewCounter").
+      build();
+   }
   }
-The WebLogAnalyticsFlowlet receives the log events from webLogStream. It parses log event and extracts the requested page URL from the log event. 
-Then it increments respective counter in pageViewTable Dataset::
+The PageViewCounterFlowlet receives the log events from webLogsStream. It parses the log event and extracts the requested page URL from the log event. 
+Then it increments respective counter in pageViewTable Dataset:
 
-  public class WebLogAnalyticsFlowlet extends AbstractFlowlet {
-    private static final Logger LOG = LoggerFactory.getLogger(WebLogAnalyticsFlowlet.class);
+.. code:: java
+
+  public class PageViewCounterFlowlet extends AbstractFlowlet {
+    private static final Logger LOG = LoggerFactory.getLogger(PageViewCounterFlowlet.class);
     private static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
       //   IP       id    user      date          request     code     size    referrer    user agent
       "^([\\d.]+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]+)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"");
@@ -107,13 +111,16 @@ Then it increments respective counter in pageViewTable Dataset::
       pageViewTable.increment(Bytes.toBytes(uri), 1L);
     }
   }
+
 For example, given the following event::
 
   192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/signup HTTP/1.0" 200 809 "http://www.example.org" "example v4.10.5 (www.example.org)"
 
 the extracted requested page URL is https://accounts.example.org/signup. This will be used as a counter key in pageViewTable Dataset.
 
-WebLogAnalyticsHandler returns a map of webpage and their page-views counts for HTTP GET request at /views::
+WebLogAnalyticsHandler returns a map of webpage and their page-views counts for HTTP GET request at /views:
+
+.. code:: java
 
   public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
     @UseDataSet("pageViewTable")
@@ -134,12 +141,19 @@ WebLogAnalyticsHandler returns a map of webpage and their page-views counts for 
 
 Build and Run Application
 -------------------------
-Now that your application implementation is ready, you can build and deploy to CDAP::
+The WebLogAnalyticsAppliation can be built and packaged using standard Apache Maven commands::
 
-  > mvn clean package
-  > bin/cdap-cli.sh deploy app WebLogAnalyticsApplication.jar
-  > bin/cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-  > bin/cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
+  mvn clean package
+
+Note that the remaining commands assume that the cdap-cli.sh script is available on your PATH. If this is not the case, please add it::
+
+  export PATH=$PATH:<CDAP home>/bin
+
+We can then deploy the application to a standalone CDAP installation and start the flow and service::
+
+  bin/cdap-cli.sh deploy app WebLogAnalyticsApplication.jar
+  bin/cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  bin/cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow is started, it is ready to receive the web logs from stream. Now let’s configure and start Flume to push web logs into a Stream.
 
@@ -148,17 +162,18 @@ Ingest Data with Flume
 In the provided sources for this guide you can find Apache web server’s access.log file that we will use as a source of data. If you have access to live Apache web server’s access logs you can use them instead.
 
 In order to configure Apache Flume to push web logs to a CDAP Stream you need to create a simple flow which includes:
-source that tail access logs
-in-memory channel
-sink that sends log lines into CDAP Stream
 
-In this example we will configure the source to tail access.log and sink to send data to  webLogStream.
+* source that tail access logs
+* in-memory channel
+* sink that sends log lines into CDAP Stream
+
+In this example we will configure the source to tail access.log and sink to send data to  webLogsStream.
 
 Download Flume
 --------------
-You can download Apache Flume distribution at : `Apache Flume Download <http://flume.apache.org/download.html>`__
+* You can download Apache Flume distribution at : `Apache Flume Download <http://flume.apache.org/download.html>`__
 
-Once downloaded , extract the archive into <flume-base-dir>::
+* Once downloaded , extract the archive into <flume-base-dir>::
 
   tar -xvf apache-flume-*-bin.tar.gz
   
@@ -170,9 +185,8 @@ Download CDAP flume sink jar::
   curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.0.1/cdap-flume-1.0.1.jar
 
 CDAP Flume sink requires newer version of `Guava <https://code.google.com/p/guava-libraries/>`__ library than that is usually shipped with Flume. You need to replace the existing guava library with guava-17.0.jar::
-
-  mkdir <flume-base-dir>/backup-lib
-  mv <flume-base-dir>/lib/guava-<existing-version>.jar  <flume-base-dir>/backup-lib
+  
+  rm <flume-base-dir>/lib/guava-<existing-version>.jar
   cd <flume-base-dir>/lib
   curl --remote-name http://search.maven.org/remotecontent?filepath=com/google/guava/guava/17.0/guava-17.0.jar
 
@@ -188,7 +202,7 @@ Now let’s configure the flow by creating the configuration file weblog-analysi
   a1.sinks.k1.channel = c1
   a1.sinks.k1.host  = 127.0.0.1
   a1.sinks.k1.port = 10000
-  a1.sinks.k1.streamName = webLogStream
+  a1.sinks.k1.streamName = webLogsStream
   a1.channels.c1.type = memory
   a1.channels.c1.capacity = 1000
   a1.channels.c1.transactionCapacity = 100
@@ -224,16 +238,17 @@ Example Output::
 
 Related Topics
 --------------
-  Wise tutorial <link>
+`Wise tutorial <https://github.com/caskdata/cdap-apps/tree/develop/Wise>`__
 
 Extend This Example
 -------------------
 To make application more useful, you can try to extend it by:
-persisting logs and their stats into a dataset <link> in WebLogaAnalyticsFlowlet
-find top visited pages by maintaining top pages in a dataset and updating them from WebLogaAnalyticsFlowlet
-calculate bounce ratio of web pages with batch processing
+
+* persisting logs and their stats into a dataset in PageViewCounterFlowlet
+* find top visited pages by maintaining top pages in a dataset and updating them from PageViewCounterFlowlet
+* calculate bounce ratio of web pages with batch processing
 
 Share & Discuss!
 ----------------
-<Like> <Tweet> <Share> <Discuss>
+Have a question? Discuss at `CDAP User Mailing List <https://groups.google.com/forum/#!forum/cdap-user>`_
   

@@ -4,7 +4,7 @@ import co.cask.cdap.api.flow.Flow;
 import co.cask.cdap.api.flow.FlowSpecification;
 
 /**
- * WebLogAnalyticsFlow with a single Flowlet {@link WebLogAnalyticsFlowlet}
+ * WebLogAnalyticsFlow with a single Flowlet {@link PageViewCounterFlowlet}
  */
 public class WebLogAnalyticsFlow implements Flow {
 
@@ -13,8 +13,8 @@ public class WebLogAnalyticsFlow implements Flow {
     return FlowSpecification.Builder.with().
       setName("WebLogAnalyticsFlow").
       setDescription("A flow that collects and performs web log analysis").
-      withFlowlets().add("WebLogAnalyticsFlowlet", new WebLogAnalyticsFlowlet()).
-      connect().fromStream("webLogStream").to("WebLogAnalyticsFlowlet").
+      withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
+      connect().fromStream("webLogStream").to("pageViewCounter").
       build();
   }
 }
