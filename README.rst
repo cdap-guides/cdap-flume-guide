@@ -2,7 +2,6 @@ Ingesting Data into CDAP using Apache Flume
 ===========================================
 
 Ingesting real time logs data into Hadoop for analysis is a common use case which is solved with `Apache Flume <http://flume.apache.org/>`__. In this guide you will learn how to ingest data into CDAP with Apache Flume and process it in real-time.
-The Cask Data Application Platform (CDAP) provides a number of pre-packaged `Datasets <http://docs.cask.co/cdap/current/en/dev-guide.html#datasets>`__, which make it easy to store and retrieve data using best-practices based implementations of common data access patterns.  In this guide, you will learn how to process and store timeseries data, using the example of real-time sensor data from a traffic monitor network.
 
 What You Will Build
 -------------------
