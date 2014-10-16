@@ -74,7 +74,7 @@ WebLogAnalyticsFlow makes use of PageViewCounterFlowlet:
         setName("WebLogAnalyticsFlow").
         setDescription("A flow that collects and performs web log analysis").
         withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
-        connect().fromStream("webLogStream").to("pageViewCounter").
+        connect().fromStream("webLogs").to("pageViewCounter").
         build();
     }
   }
@@ -151,7 +151,7 @@ Note that the remaining commands assume that the cdap-cli.sh script is available
 
 We can then deploy the application to a standalone CDAP installation and start the flow and service::
 
-  cdap-cli.sh deploy app WebLogAnalyticsApplication.jar
+  cdap-cli.sh deploy app target/cdap-flume-guide-1.0.0.jar
   cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
   cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
 
