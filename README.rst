@@ -2,7 +2,7 @@ Ingesting Data into CDAP using Apache Flume
 ===========================================
 
 Ingesting real time logs data into Hadoop for analysis is a common use case which is solved with `Apache Flume <http://flume.apache.org/>`__. In this guide you will learn how to ingest data into CDAP with Apache Flume and process it in real-time.
-The Cask Data Application Platform (CDAP) provides a number of pre-packaged Datasets, which make it easy to store and retrieve data using best-practices based implementations of common data access patterns.  In this guide, you will learn how to process and store timeseries data, using the example of real-time sensor data from a traffic monitor network.
+The Cask Data Application Platform (CDAP) provides a number of pre-packaged `Datasets <http://docs.cask.co/cdap/current/en/dev-guide.html#datasets>`__, which make it easy to store and retrieve data using best-practices based implementations of common data access patterns.  In this guide, you will learn how to process and store timeseries data, using the example of real-time sensor data from a traffic monitor network.
 
 What You Will Build
 -------------------
@@ -29,7 +29,7 @@ In this case feel free to skip following two sections and jump to Build and Run 
 Application Design
 ------------------
 Web logs are aggregated using Flume which pushes the data to a webLogs Stream using special StreamSink from `cdap-ingest <https://github.com/caskdata/cdap-ingest>`__ library. 
-Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews `Dataset <http://docs.cask.co/cdap/current/en/dev-guide.html#datasets>`__. 
+Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews Dataset. 
 WebLogAnalyticsService makes computation results that stored in pageViews Dataset accessible via HTTP.
 
 <diagram>
