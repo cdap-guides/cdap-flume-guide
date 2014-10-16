@@ -32,7 +32,7 @@ Web logs are aggregated using Flume which pushes the data to a webLogs stream us
 Then, logs are processed in real-time with a Flow that consumes data from webLogs stream and persists computation results in a pageViews Dataset. 
 WebLogAnalyticsService makes computation results that stored in pageViews Dataset accessible via HTTP.
 
-<diagram>
+|(AppDesign)|
 
 First, we will build an app, deploy the app and start it. Once it is ready to accept and process the data, we will configure Flume to push data into a stream in real-time.
 
@@ -253,3 +253,4 @@ Share & Discuss!
 ----------------
 Have a question? Discuss at `CDAP User Mailing List <https://groups.google.com/forum/#!forum/cdap-user>`_
   
+.. |(AppDesign)| image:: docs/img/app-design.png
