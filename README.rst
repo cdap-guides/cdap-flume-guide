@@ -238,7 +238,7 @@ Example Output::
 
 Related Topics
 --------------
-`Wise tutorial <https://github.com/caskdata/cdap-apps/tree/develop/Wise>`__
+* `Wise: Web Analytics <http://docs.cask.co/tutorial/current/en/tutorial2.html>`_ tutorial
 
 Extend This Example
 -------------------
