@@ -92,7 +92,7 @@ Then it increments respective counter in pageViewTable Dataset:
     private static final Pattern REQUEST_PAGE_PATTERN = Pattern.compile("(\\S+)\\s(\\S+).*");
 
     @UseDataSet("pageViewTable")
-    KeyValueTable pageViewTable;
+    private KeyValueTable pageViewTable;
   
     @ProcessInput
     public void process(StreamEvent log) {
@@ -125,7 +125,7 @@ WebLogAnalyticsHandler returns a map of webpage and their page-views counts for 
 
   public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
     @UseDataSet("pageViewTable")
-    KeyValueTable pageViewTable;
+    private KeyValueTable pageViewTable;
   
     @Path("views")
     @GET
