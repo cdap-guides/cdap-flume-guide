@@ -20,7 +20,7 @@ import javax.ws.rs.Path;
  */
 public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
   @UseDataSet("pageViewTable")
-  KeyValueTable pageViewTable;
+  private KeyValueTable pageViewTable;
 
   @Path("views")
   @GET

@@ -89,7 +89,8 @@ Then it increments respective counter in pageViewTable Dataset:
     private static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
       //   IP       id    user      date          request     code     size    referrer    user agent
       "^([\\d.]+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]+)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"");
-    final Pattern REQUEST_PAGE_PATTERN = Pattern.compile("(\\S+)\\s(\\S+).*");
+    private static final Pattern REQUEST_PAGE_PATTERN = Pattern.compile("(\\S+)\\s(\\S+).*");
+
     @UseDataSet("pageViewTable")
     KeyValueTable pageViewTable;
   
@@ -186,16 +187,16 @@ Download CDAP flume sink jar::
 
 CDAP Flume sink requires newer version of `Guava <https://code.google.com/p/guava-libraries/>`__ library than that is usually shipped with Flume. You need to replace the existing guava library with guava-17.0.jar::
   
-  rm <flume-base-dir>/lib/guava-<existing-version>.jar
-  cd <flume-base-dir>/lib
-  curl --remote-name http://search.maven.org/remotecontent?filepath=com/google/guava/guava/17.0/guava-17.0.jar
+  the following commands are executed at <flume-base-dir>/lib
+  rm guava-*.jar
+  curl --remote-name https://repo1.maven.org/maven2/com/google/guava/guava/17.0/guava-17.0.jar
 
 Now let’s configure the flow by creating the configuration file weblog-analysis.conf at <flume-base-dir>/conf with the following contents::
 
   a1.sources = r1
   a1.channels = c1
   a1.sources.r1.type = exec
-  a1.sources.r1.command = tail -F <cdap-flume-ingest-guide-basedir>/access.log
+  a1.sources.r1.command = tail -F <cdap-flume-ingest-guide-basedir>/data/access.log
   a1.sources.r1.channels = c1
   a1.sinks = k1
   a1.sinks.k1.type = co.cask.cdap.flume.StreamSink

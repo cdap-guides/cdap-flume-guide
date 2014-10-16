@@ -23,9 +23,10 @@ public class PageViewCounterFlowlet extends AbstractFlowlet {
   private static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
     //   IP       id    user      date          request     code     size    referrer    user agent
     "^([\\d.]+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]+)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"");
-  final Pattern REQUEST_PAGE_PATTERN = Pattern.compile("(\\S+)\\s(\\S+).*");
+  private static final Pattern REQUEST_PAGE_PATTERN = Pattern.compile("(\\S+)\\s(\\S+).*");
+
   @UseDataSet("pageViewTable")
-  KeyValueTable pageViewTable;
+  private KeyValueTable pageViewTable;
 
   @ProcessInput
   public void process(StreamEvent log) {
