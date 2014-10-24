@@ -21,7 +21,7 @@ to find page view counts. You will:
     [Service](http://docs.cask.co/cdap/current/en/dev-guide.html#services)
     to serve the analysis results via HTTP
 
-What you will need
+What You Will Need
 ------------------
 
 -   [JDK 6 or JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -175,7 +175,7 @@ public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
 Build and Run Application
 -------------------------
 
-The WebLogAnalyticsAppliation can be built and packaged using standard
+The `WebLogAnalyticsApp` can be built and packaged using standard
 Apache Maven commands:
 
     mvn clean package
@@ -317,6 +317,5 @@ To make this application more useful, you can extend it by:
 Share and Discuss!
 ------------------
 
-Have a question? Discuss at the [CDAP User Mailing
-List](https://groups.google.com/forum/#!forum/cdap-user)
+Have a question? Discuss at the [CDAP User Mailing List](https://groups.google.com/forum/#!forum/cdap-user)
 
