@@ -179,7 +179,7 @@ available on your PATH. If this is not the case, please add it:
 
     export PATH=$PATH:<CDAP home>/bin
 
-If you haven't started already CDAP standalone, start it with the command:
+If you haven't already started a standalone CDAP installation, start it with the command:
 
     cdap.sh start
 
