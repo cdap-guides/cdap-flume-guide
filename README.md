@@ -49,7 +49,7 @@ logs are processed in realtime with a Flow that consumes data from the
 Dataset. The `WebLogAnalyticsService` makes the computation results
 stored in the `pageViews` Dataset accessible via HTTP.
 
-![(AppDesign)](docs/images/app-design.png)
+![](docs/images/app-design.png)
 
 First, we will build the app, then deploy the app and start it. Once it
 is ready to accept and process the data, we will configure Flume to push
