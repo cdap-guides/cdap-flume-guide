@@ -70,7 +70,7 @@ maven project. Use this directory structure:
 `WebLogAnalyticsApplication` declares that the application has a Stream,
 a Flow, a Service and uses a Dataset:
 
-``` {.sourceCode .java}
+```java
 public class WebLogAnalyticsApplication extends AbstractApplication {
 
   @Override
@@ -86,7 +86,7 @@ public class WebLogAnalyticsApplication extends AbstractApplication {
 
 The `WebLogAnalyticsFlow` makes use of the `PageViewCounterFlowlet`:
 
-``` {.sourceCode .java}
+```java
 public class WebLogAnalyticsFlow implements Flow {
 
   @Override
@@ -106,7 +106,7 @@ Stream. It parses the log event and extracts the requested page URL from
 the log event. Then it increments respective counter in the `pageViewTable`
 Dataset:
 
-``` {.sourceCode .java}
+```java
 public class PageViewCounterFlowlet extends AbstractFlowlet {
   private static final Logger LOG = LoggerFactory.getLogger(PageViewCounterFlowlet.class);
   private static final Pattern ACCESS_LOG_PATTERN = Pattern.compile(
@@ -147,7 +147,7 @@ This will be used as a counter key in the `pageViewTable` Dataset.
 `WebLogAnalyticsHandler` returns a map of the webpage and its page-views
 counts for an HTTP GET request at `/views`:
 
-``` {.sourceCode .java}
+```java
 public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
   @UseDataSet("pageViewTable")
   private KeyValueTable pageViewTable;
