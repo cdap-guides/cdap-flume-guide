@@ -36,7 +36,7 @@ The following sections will guide you through configuring and running Flume, and
 implementing an application from scratch. If you want to deploy and run the application
 right away, you can clone the sources from this GitHub repository. In that case, feel free
 to skip the following two sections and jump directly to the
-Build and Run Application\_ section.
+[Build and Run Application][] section.
 
 Application Design
 ------------------
@@ -311,4 +311,3 @@ Share and Discuss!
 ------------------
 
 Have a question? Discuss at the [CDAP User Mailing List](https://groups.google.com/forum/#!forum/cdap-user)
-
