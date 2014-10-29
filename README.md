@@ -62,10 +62,10 @@ The recommended way to build a CDAP application from scratch is to use a
 maven project. Use this directory structure:
 
     ./pom.xml
-    ./src/main/java/co/cask/cdap/guide/PageViewCounterFlowlet.java
-    ./src/main/java/co/cask/cdap/guide/WebLogAnalyticsApplication.java
-    ./src/main/java/co/cask/cdap/guide/WebLogAnalyticsFlow.java
-    ./src/main/java/co/cask/cdap/guide/WebLogAnalyticsHandler.java
+    ./src/main/java/co/cask/cdap/guides/PageViewCounterFlowlet.java
+    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsApplication.java
+    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsFlow.java
+    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsHandler.java
 
 `WebLogAnalyticsApplication` declares that the application has a Stream,
 a Flow, a Service and uses a Dataset:
