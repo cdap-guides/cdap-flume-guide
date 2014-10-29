@@ -9,25 +9,26 @@ Flume and process it in realtime.
 What You Will Build
 -------------------
 
-You will build a CDAP application that uses web logs aggregated by Flume
-to find page view counts. You will:
+You will build a 
+[CDAP application](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/applications.html)
+that uses web logs aggregated by Flume to find page view counts. You will:
 
--   Configure Flume to ingest data into a 
-    [CDAP Stream;](http://docs.cask.co/cdap/current/en/dev-guide.html#streams)
--   Build a realtime
-    [Flow](http://docs.cask.co/cdap/current/en/dev-guide.html#flows) to
-    process the ingested web logs; and
--   Build a
-    [Service](http://docs.cask.co/cdap/current/en/dev-guide.html#services)
-    to serve the analysis results via HTTP.
+- Configure Flume to ingest data into a 
+  [CDAP Stream;](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/streams.html)
+- Build a realtime
+  [Flow](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/flows-flowlets/flows.html)
+  to process the ingested web logs; and
+- Build a
+  [Service](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/services.html)
+  to serve the analysis results via HTTP.
 
 What You Will Need
 ------------------
 
--   [JDK 6 or JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
--   [Apache Maven 3.0+](http://maven.apache.org/download.cgi)
--   [CDAP SDK](http://docs.cdap.io/cdap/current/en/getstarted.html#download-and-setup)
--   [Apache Flume](http://flume.apache.org/download.html)
+- [JDK 6 or JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Apache Maven 3.0+](http://maven.apache.org/)
+- [CDAP SDK](http://docs.cdap.io/cdap/current/en/developer-guide/getting-started/standalone/index.html)
+- [Apache Flume](http://flume.apache.org/download.html)
 
 Let’s Build It!
 ---------------
@@ -169,8 +170,7 @@ public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
 Build and Run Application
 -------------------------
 
-The `WebLogAnalyticsApp` can be built and packaged using standard
-Apache Maven commands:
+The `WebLogAnalyticsApp` can be built and packaged using the Apache Maven command:
 
     mvn clean package
 
@@ -310,4 +310,21 @@ To make this application more useful, you can extend it:
 Share and Discuss!
 ------------------
 
-Have a question? Discuss at the [CDAP User Mailing List](https://groups.google.com/forum/#!forum/cdap-user)
+Have a question? Discuss at the [CDAP User Mailing List.](https://groups.google.com/forum/#!forum/cdap-user)
+
+License
+-------
+
+Copyright © 2014 Cask Data, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
