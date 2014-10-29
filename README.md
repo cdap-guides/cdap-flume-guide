@@ -37,7 +37,7 @@ The following sections will guide you through configuring and running Flume, and
 implementing an application from scratch. If you want to deploy and run the application
 right away, you can clone the sources from this GitHub repository. In that case, feel free
 to skip the following two sections and jump directly to the
-[Build and Run Application]() section.
+[Build and Run Application](#build-and-run-application) section.
 
 Application Design
 ------------------
