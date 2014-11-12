@@ -10,16 +10,16 @@ What You Will Build
 -------------------
 
 You will build a 
-[CDAP application](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/applications.html)
+[CDAP application](http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/applications.html)
 that uses web logs aggregated by Flume to find page view counts. You will:
 
 - Configure Flume to ingest data into a 
-  [CDAP Stream;](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/streams.html)
+  [CDAP Stream;](http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/streams.html)
 - Build a realtime
-  [Flow](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/flows-flowlets/flows.html)
+  [Flow](http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/flows-flowlets/flows.html)
   to process the ingested web logs; and
 - Build a
-  [Service](http://docs.cdap.io/cdap/current/en/developer-guide/building-blocks/services.html)
+  [Service](http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/services.html)
   to serve the analysis results via HTTP.
 
 What You Will Need
@@ -27,7 +27,7 @@ What You Will Need
 
 - [JDK 6 or JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Apache Maven 3.0+](http://maven.apache.org/)
-- [CDAP SDK](http://docs.cdap.io/cdap/current/en/developer-guide/getting-started/standalone/index.html)
+- [CDAP SDK](http://docs.cdap.io/cdap/current/en/developers-manual/getting-started/standalone/index.html)
 - [Apache Flume](http://flume.apache.org/download.html)
 
 Let’s Build It!
