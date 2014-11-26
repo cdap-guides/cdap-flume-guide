@@ -290,7 +290,7 @@ results of processing:
 
 Example output:
 
-    {https://www.example.org/=1, https://accounts.example.org/signup=3, https://accounts.example.org/login=2}
+    {"https://www.example.org/":1,"https://accounts.example.org/signup":4,"/contact-sales":2,"https://accounts.example.org/login":3}
 
 Related Topics
 --------------
