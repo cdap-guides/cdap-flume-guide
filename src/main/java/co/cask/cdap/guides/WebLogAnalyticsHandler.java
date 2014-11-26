@@ -7,7 +7,6 @@ import co.cask.cdap.api.dataset.lib.KeyValueTable;
 import co.cask.cdap.api.service.http.AbstractHttpServiceHandler;
 import co.cask.cdap.api.service.http.HttpServiceRequest;
 import co.cask.cdap.api.service.http.HttpServiceResponder;
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
 import java.util.Iterator;
@@ -31,6 +30,6 @@ public class WebLogAnalyticsHandler extends AbstractHttpServiceHandler {
      KeyValue<byte[], byte[]> uri = pageViewScan.next();
      pageViews.put(new String(uri.getKey()), Bytes.toLong(uri.getValue()));
     }
-    responder.sendString(200, pageViews.toString(), Charsets.UTF_8);
+    responder.sendJson(200, pageViews);
   }
 }
