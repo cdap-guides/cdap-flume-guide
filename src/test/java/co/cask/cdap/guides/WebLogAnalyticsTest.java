@@ -1,7 +1,6 @@
 package co.cask.cdap.guides;
 
 import co.cask.cdap.test.ApplicationManager;
-import co.cask.cdap.test.FlowManager;
 import co.cask.cdap.test.RuntimeMetrics;
 import co.cask.cdap.test.RuntimeStats;
 import co.cask.cdap.test.ServiceManager;
@@ -34,8 +33,11 @@ public class WebLogAnalyticsTest extends TestBase {
     ApplicationManager appManager = deployApplication(WebLogAnalyticsApplication.class);
 
     // Start WebLogAnalyticsFlow
-    FlowManager flowManager = appManager.startFlow("WebLogAnalyticsFlow");
+    appManager.startFlow("WebLogAnalyticsFlow");
 
+    // Start WebLogAnalyticsService
+    ServiceManager serviceManager = appManager.startService("WebLogAnalyticsService");
+    serviceManager.waitForStatus(true);
 
     // Send stream events to the "webLogs" Stream
     StreamWriter streamWriter = appManager.getStreamWriter("webLogs");
@@ -64,13 +66,6 @@ public class WebLogAnalyticsTest extends TestBase {
                                                                    "pageViewCounter");
       countMetrics.waitForProcessed(5, 5, TimeUnit.SECONDS);
 
-      // Start WebLogAnalyticsService
-      ServiceManager serviceManager = appManager.startService("WebLogAnalyticsService");
-
-
-      // Wait for service startup
-      serviceStatusCheck(serviceManager, true);
-
       // Test service to retrieve page views map.
       URL url = new URL(serviceManager.getServiceURL(), "views");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -88,19 +83,9 @@ public class WebLogAnalyticsTest extends TestBase {
       Assert.assertEquals(4, pageViews.size());
       Assert.assertEquals(2L, (long) pageViews.get("https://accounts.example.org/signup"));
     } finally {
-      flowManager.stop();
+      serviceManager.stop();
+      serviceManager.waitForStatus(false);
       appManager.stopAll();
     }
-  }
-
-  private void serviceStatusCheck(ServiceManager serviceManger, boolean running) throws InterruptedException {
-    int trial = 0;
-    while (trial++ < 5) {
-      if (serviceManger.isRunning() == running) {
-        return;
-      }
-      TimeUnit.SECONDS.sleep(1);
-    }
-    throw new IllegalStateException("Service state not executed. Expected " + running);
   }
 }
