@@ -35,6 +35,10 @@ public class WebLogAnalyticsTest extends TestBase {
     // Start WebLogAnalyticsFlow
     appManager.startFlow("WebLogAnalyticsFlow");
 
+    // Start WebLogAnalyticsService
+    ServiceManager serviceManager = appManager.startService("WebLogAnalyticsService");
+    serviceManager.waitForStatus(true);
+
     // Send stream events to the "webLogs" Stream
     StreamWriter streamWriter = appManager.getStreamWriter("webLogs");
 
@@ -62,10 +66,6 @@ public class WebLogAnalyticsTest extends TestBase {
                                                                    "pageViewCounter");
       countMetrics.waitForProcessed(5, 5, TimeUnit.SECONDS);
 
-      // Start WebLogAnalyticsService
-      ServiceManager serviceManager = appManager.startService("WebLogAnalyticsService");
-      serviceManager.waitForStatus(true);
-
       // Test service to retrieve page views map.
       URL url = new URL(serviceManager.getServiceURL(), "views");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -83,6 +83,8 @@ public class WebLogAnalyticsTest extends TestBase {
       Assert.assertEquals(4, pageViews.size());
       Assert.assertEquals(2L, (long) pageViews.get("https://accounts.example.org/signup"));
     } finally {
+      serviceManager.stop();
+      serviceManager.waitForStatus(false);
       appManager.stopAll();
     }
   }
