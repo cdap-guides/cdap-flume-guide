@@ -237,6 +237,8 @@ library with `guava-17.0.jar`:
     # these commands are executed at <flume-base-dir>/lib
     rm guava-*.jar
     curl --remote-name https://repo1.maven.org/maven2/com/google/guava/guava/17.0/guava-17.0.jar
+    rm httpcore-*.jar
+    curl --remote-name http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar
 
 Now, let’s configure the flow by creating the configuration file
 `weblog-analysis.conf` at `<flume-base-dir>/conf` with these contents:
