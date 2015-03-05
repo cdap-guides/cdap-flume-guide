@@ -8,7 +8,7 @@ In this guide, you will learn how to ingest data into CDAP with Apache
 Flume and process it in realtime.
 
 What You Will Build
--------------------
+===================
 
 You will build a 
 `CDAP application <http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/applications.html>`__
@@ -24,7 +24,7 @@ that uses web logs aggregated by Flume to find page view counts. You will:
   to serve the analysis results via HTTP.
 
 What You Will Need
-------------------
+==================
 
 - `JDK 6 or JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
 - `Apache Maven 3.0+ <http://maven.apache.org/>`__
@@ -32,7 +32,7 @@ What You Will Need
 - `Apache Flume <http://flume.apache.org/download.html>`__
 
 Let’s Build It!
----------------
+===============
 
 The following sections will guide you through configuring and running Flume, and
 implementing an application from scratch. If you want to deploy and run the application
@@ -170,8 +170,9 @@ counts for an HTTP GET request at ``/views``:
     }
   }
 
+
 Build and Run Application
--------------------------
+=========================
 
 The ``WebLogAnalyticsApp`` can be built and packaged using the Apache Maven command::
 
@@ -296,13 +297,13 @@ Example output::
     {"https://www.example.org/":1,"https://accounts.example.org/signup":4,"/contact-sales":2,"https://accounts.example.org/login":3}
 
 Related Topics
---------------
+==============
 
 -   `Wise: Web Analytics <http://docs.cask.co/tutorial/current/en/tutorial2.html>`__
     tutorial, part of CDAP
 
 Extend This Example
--------------------
+===================
 
 To make this application more useful, you can extend it:
 
@@ -311,12 +312,12 @@ To make this application more useful, you can extend it:
 -   Calculate the bounce ratio of web pages, with batch processing.
 
 Share and Discuss!
-------------------
+==================
 
 Have a question? Discuss at the `CDAP User Mailing List. <https://groups.google.com/forum/#!forum/cdap-user>`__
 
 License
--------
+=======
 
 Copyright © 2014-2015 Cask Data, Inc.
 
