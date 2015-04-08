@@ -65,11 +65,11 @@ Application Implementation
 The recommended way to build a CDAP application from scratch is to use a
 maven project. Use this directory structure::
 
-    ./pom.xml
-    ./src/main/java/co/cask/cdap/guides/PageViewCounterFlowlet.java
-    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsApplication.java
-    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsFlow.java
-    ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsHandler.java
+  ./pom.xml
+  ./src/main/java/co/cask/cdap/guides/PageViewCounterFlowlet.java
+  ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsApplication.java
+  ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsFlow.java
+  ./src/main/java/co/cask/cdap/guides/WebLogAnalyticsHandler.java
 
 ``WebLogAnalyticsApplication`` declares that the application has a Stream,
 a Flow, a Service and uses a Dataset:
@@ -176,23 +176,23 @@ Build and Run Application
 
 The ``WebLogAnalyticsApp`` can be built and packaged using the Apache Maven command::
 
-    mvn clean package
+  $ mvn clean package
 
 Note that the remaining commands assume that the ``cdap-cli.sh`` script is
 available on your PATH. If this is not the case, please add it::
 
-    export PATH=$PATH:<CDAP home>/bin
+  $ export PATH=$PATH:<CDAP home>/bin
 
 If you haven't already started a standalone CDAP installation, start it with the command::
 
-    cdap.sh start
+  $ cdap.sh start
 
 We can then deploy the application to a standalone CDAP installation and
 start the flow and service::
 
-    cdap-cli.sh deploy app target/cdap-flume-guide-1.0.0.jar
-    cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-    cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
+  $ cdap-cli.sh deploy app target/cdap-flume-guide-<version>.jar
+  $ cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  $ cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow has started, it is ready to receive the web logs from the
 stream. Now, let’s configure and start Flume to push web logs into the
@@ -209,9 +209,9 @@ instead.
 In order to configure Apache Flume to push web logs to a CDAP Stream,
 you need to create a simple Flume flow which includes:
 
--   Flume source that tail access logs;
--   In-memory channel; and
--   Flume sink that sends log lines into the CDAP Stream.
+- Flume source that tail access logs;
+- In-memory channel; and
+- Flume sink that sends log lines into the CDAP Stream.
 
 In this example, we will configure the source to tail ``access.log`` and
 ``sink`` to send data to the ``webLogs`` stream.
@@ -219,66 +219,66 @@ In this example, we will configure the source to tail ``access.log`` and
 Download Flume
 --------------
 
--   You can download the Apache Flume distribution at the `Apache Flume
-    download <http://flume.apache.org/download.html>`__.
--   Once downloaded, extract the archive into ``<flume-base-dir>``::
+- You can download the Apache Flume distribution at the `Apache Flume
+  download <http://flume.apache.org/download.html>`__.
+- Once downloaded, extract the archive into ``<flume-base-dir>``::
 
-        tar -xvf apache-flume-*-bin.tar.gz
+    $ tar -xvf apache-flume-*-bin.tar.gz
 
 Configure Flume Flow
 --------------------
 
 Download the CDAP Flume sink jar into your Flume installation::
 
-    cd <flume-base-dir>/lib
-    curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.0.1/cdap-flume-1.0.1.jar
+  $ cd <flume-base-dir>/lib
+  $ curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.0.1/cdap-flume-1.0.1.jar
 
 The CDAP Flume sink requires a newer version of
 `Guava <https://code.google.com/p/guava-libraries/>`__ library than that is
 usually shipped with Flume. You need to replace the existing Flume Guava
 library with ``guava-17.0.jar``::
 
-    # these commands are executed at <flume-base-dir>/lib
-    rm guava-*.jar
-    curl --remote-name https://repo1.maven.org/maven2/com/google/guava/guava/17.0/guava-17.0.jar
+  $ cd <flume-base-dir>/lib
+  $ rm guava-*.jar
+  $ curl --remote-name https://repo1.maven.org/maven2/com/google/guava/guava/17.0/guava-17.0.jar
 
 Now, let’s configure the flow by creating the configuration file
 ``weblog-analysis.conf`` at ``<flume-base-dir>/conf`` with these contents::
 
-    a1.sources = r1
-    a1.channels = c1
-    a1.sources.r1.type = exec
-    a1.sources.r1.command = tail -F <cdap-flume-ingest-guide-basedir>/data/access.log
-    a1.sources.r1.channels = c1
-    a1.sinks = k1
-    a1.sinks.k1.type = co.cask.cdap.flume.StreamSink
-    a1.sinks.k1.channel = c1
-    a1.sinks.k1.host  = 127.0.0.1
-    a1.sinks.k1.port = 10000
-    a1.sinks.k1.streamName = webLogs
-    a1.channels.c1.type = memory
-    a1.channels.c1.capacity = 1000
-    a1.channels.c1.transactionCapacity = 100
+  a1.sources = r1
+  a1.channels = c1
+  a1.sources.r1.type = exec
+  a1.sources.r1.command = tail -F <cdap-flume-ingest-guide-basedir>/data/access.log
+  a1.sources.r1.channels = c1
+  a1.sinks = k1
+  a1.sinks.k1.type = co.cask.cdap.flume.StreamSink
+  a1.sinks.k1.channel = c1
+  a1.sinks.k1.host  = 127.0.0.1
+  a1.sinks.k1.port = 10000
+  a1.sinks.k1.streamName = webLogs
+  a1.channels.c1.type = memory
+  a1.channels.c1.capacity = 1000
+  a1.channels.c1.transactionCapacity = 100
 
 Change ``<cdap-flume-ingest-guide-basedir>`` in the configuration file to
 point to the ``<cdap-flume-ingest-guide>`` directory. Alternatively, you can
 point it to ``/tmp/access.log``, and create ``/tmp/access.log`` with these
 sample contents::
 
-    192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 392 "http://www.example.org" "Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)"
-    192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/login HTTP/1.1" 404 182 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
-    192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 394 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
-    192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/login HTTP/1.0" 404 208 "http://www.example.org" "example v4.10.5 (www.example.org)"
-    192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/signup HTTP/1.0" 200 809 "http://www.example.org" "example v4.10.5 (www.example.org)"
-    192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://www.example.org/ HTTP/1.0" 200 809 "-" "example v4.10.5 (www.example.org)"
+  192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 392 "http://www.example.org" "Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)"
+  192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/login HTTP/1.1" 404 182 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+  192.168.67.103 - - [14/Jan/2014:08:03:05 -0400] "GET https://accounts.example.org/signup HTTP/1.1" 200 394 "http://www.example.org" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/login HTTP/1.0" 404 208 "http://www.example.org" "example v4.10.5 (www.example.org)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/signup HTTP/1.0" 200 809 "http://www.example.org" "example v4.10.5 (www.example.org)"
+  192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://www.example.org/ HTTP/1.0" 200 809 "-" "example v4.10.5 (www.example.org)"
 
 Run Flume Flow with Agent
 -------------------------
 
 To run a Flume flow, start an agent with the flow’s configuration::
 
-    cd <flume-base-dir>
-    ./bin/flume-ng agent --conf conf --conf-file conf/weblog-analysis.conf --name a1 -Dflume.root.logger=INFO,console
+  $ cd <flume-base-dir>
+  $ ./bin/flume-ng agent --conf conf --conf-file conf/weblog-analysis.conf --name a1 -Dflume.root.logger=INFO,console
 
 Once the agent has started, it begins to push data to the CDAP Stream.
 The CDAP application, started earlier, processes the log events as soon as
@@ -290,26 +290,26 @@ Query Results
 ``WebLogAnalyticsService`` exposes an HTTP endpoint for you to query the
 results of processing::
 
-    curl -v -X GET http://localhost:10000/v2/apps/WebLogAnalyticsApp/services/WebLogAnalyticsService/methods/views
+  $ curl -w'\n' -X GET http://localhost:10000/v3/namespaces/default/apps/WebLogAnalyticsApp/services/WebLogAnalyticsService/methods/views
 
 Example output::
 
-    {"https://www.example.org/":1,"https://accounts.example.org/signup":4,"/contact-sales":2,"https://accounts.example.org/login":3}
+  {"https://www.example.org/":1,"https://accounts.example.org/signup":4,"/contact-sales":2,"https://accounts.example.org/login":3}
 
 Related Topics
 ==============
 
--   `Wise: Web Analytics <http://docs.cask.co/tutorial/current/en/tutorial2.html>`__
-    tutorial, part of CDAP
+- `Wise: Web Analytics <http://docs.cask.co/cdap/current/en/examples-manual/tutorials.html>`__
+  tutorial, part of CDAP
 
 Extend This Example
 ===================
 
 To make this application more useful, you can extend it:
 
--   Find the top visited pages by maintaining the top pages in a Dataset
-    and updating them from the ``PageViewCounterFlowlet``; and
--   Calculate the bounce ratio of web pages, with batch processing.
+- Find the top visited pages by maintaining the top pages in a Dataset
+  and updating them from the ``PageViewCounterFlowlet``; and
+- Calculate the bounce ratio of web pages, with batch processing.
 
 Share and Discuss!
 ==================
@@ -325,7 +325,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain
 a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+  http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
