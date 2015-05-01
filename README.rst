@@ -26,8 +26,8 @@ that uses web logs aggregated by Flume to find page view counts. You will:
 What You Will Need
 ==================
 
-- `JDK 6 or JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
-- `Apache Maven 3.0+ <http://maven.apache.org/>`__
+- `JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
+- `Apache Maven 3.1+ <http://maven.apache.org/>`__
 - `CDAP SDK <http://docs.cdap.io/cdap/current/en/developers-manual/getting-started/standalone/index.html>`__
 - `Apache Flume <http://flume.apache.org/download.html>`__
 
@@ -190,9 +190,9 @@ If you haven't already started a standalone CDAP installation, start it with the
 We can then deploy the application to a standalone CDAP installation and
 start the flow and service::
 
-  $ cdap-cli.sh deploy app target/cdap-flume-guide-<version>.jar
-  $ cdap-cli.sh start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-  $ cdap-cli.sh start service WebLogAnalyticsApp.WebLogAnalyticsService
+  $ cdap-cli.sh -u localhost:10000/default deploy app target/cdap-flume-guide-<version>.jar
+  $ cdap-cli.sh -u localhost:10000/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  $ cdap-cli.sh -u localhost:10000/default start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow has started, it is ready to receive the web logs from the
 stream. Now, let’s configure and start Flume to push web logs into the
@@ -254,6 +254,7 @@ Now, let’s configure the flow by creating the configuration file
   a1.sinks.k1.type = co.cask.cdap.flume.StreamSink
   a1.sinks.k1.channel = c1
   a1.sinks.k1.host  = 127.0.0.1
+  a1.sinks.k1.namespace = default
   a1.sinks.k1.port = 10000
   a1.sinks.k1.streamName = webLogs
   a1.channels.c1.type = memory
@@ -290,7 +291,7 @@ Query Results
 ``WebLogAnalyticsService`` exposes an HTTP endpoint for you to query the
 results of processing::
 
-  $ curl -w'\n' -X GET http://localhost:10000/v3/namespaces/default/apps/WebLogAnalyticsApp/services/WebLogAnalyticsService/methods/views
+  $ cdap-cli.sh -u localhost:10000/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
 
 Example output::
 
