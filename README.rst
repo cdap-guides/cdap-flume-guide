@@ -231,7 +231,7 @@ Configure Flume Flow
 Download the CDAP Flume sink jar into your Flume installation::
 
   $ cd <flume-base-dir>/lib
-  $ curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.0.1/cdap-flume-1.0.1.jar
+  $ curl --remote-name https://oss.sonatype.org/content/repositories/releases/co/cask/cdap/cdap-flume/1.3.0/cdap-flume-1.3.0.jar
 
 The CDAP Flume sink requires a newer version of
 `Guava <https://code.google.com/p/guava-libraries/>`__ library than that is
