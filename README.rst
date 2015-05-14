@@ -300,7 +300,7 @@ Example output::
 Related Topics
 ==============
 
-- `Wise: Web Analytics <http://docs.cask.co/cdap/current/en/examples-manual/tutorials.html>`__
+- `Wise: Web Analytics <http://docs.cask.co/cdap/current/en/examples-manual/tutorials/wise.html>`__
   tutorial, part of CDAP
 
 Extend This Example
