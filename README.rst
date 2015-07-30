@@ -26,7 +26,7 @@ that uses web logs aggregated by Flume to find page view counts. You will:
 What You Will Need
 ==================
 
-- `JDK 7 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
+- `JDK 7 or 8 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
 - `Apache Maven 3.0+ <http://maven.apache.org/>`__
 - `CDAP SDK <http://docs.cdap.io/cdap/current/en/developers-manual/getting-started/standalone/index.html>`__
 - `Apache Flume <http://flume.apache.org/download.html>`__
