@@ -190,7 +190,8 @@ If you haven't already started a standalone CDAP installation, start it with the
 We can then deploy the application to a standalone CDAP installation and
 start the flow and service::
 
-  $ cdap-cli.sh -u localhost:10000/default deploy app target/cdap-flume-guide-<version>.jar
+  $ cdap-cli.sh -u localhost:10000/default load artifact target/cdap-flume-guide-<version>.jar
+  $ cdap-cli.sh -u localhost:10000/default create app WebLogAnalyticsApp cdap-flume-guide <version> user
   $ cdap-cli.sh -u localhost:10000/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
   $ cdap-cli.sh -u localhost:10000/default start service WebLogAnalyticsApp.WebLogAnalyticsService
 
