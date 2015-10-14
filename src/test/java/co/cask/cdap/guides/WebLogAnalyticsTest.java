@@ -2,9 +2,9 @@ package co.cask.cdap.guides;
 
 import co.cask.cdap.api.metrics.RuntimeMetrics;
 import co.cask.cdap.test.ApplicationManager;
-import co.cask.cdap.test.RuntimeStats;
+import co.cask.cdap.test.FlowManager;
 import co.cask.cdap.test.ServiceManager;
-import co.cask.cdap.test.StreamWriter;
+import co.cask.cdap.test.StreamManager;
 import co.cask.cdap.test.TestBase;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
@@ -33,37 +33,35 @@ public class WebLogAnalyticsTest extends TestBase {
     ApplicationManager appManager = deployApplication(WebLogAnalyticsApplication.class);
 
     // Start WebLogAnalyticsFlow
-    appManager.startFlow("WebLogAnalyticsFlow");
+    FlowManager flowManager = appManager.getFlowManager("WebLogAnalyticsFlow").start();
 
     // Start WebLogAnalyticsService
-    ServiceManager serviceManager = appManager.startService("WebLogAnalyticsService");
+    ServiceManager serviceManager = appManager.getServiceManager("WebLogAnalyticsService").start();
     serviceManager.waitForStatus(true);
 
     // Send stream events to the "webLogs" Stream
-    StreamWriter streamWriter = appManager.getStreamWriter("webLogs");
+    StreamManager streamManager = getStreamManager("webLogs");
 
-    streamWriter.send("192.168.99.124 - - [14/Jan/2014:08:12:02 -0400] \"GET /?C=M;O=A HTTP/1.1\" 200 393 \"-\" " +
+    streamManager.send("192.168.99.124 - - [14/Jan/2014:08:12:02 -0400] \"GET /?C=M;O=A HTTP/1.1\" 200 393 \"-\" " +
                         "\"Mozilla/5.0 (compatible; YandexBot/3.0; +http://www.example.org/bots)\"");
 
-    streamWriter.send("192.168.58.16 - - [14/Jan/2014:08:50:05 -0400] \"GET / HTTP/1.0\" 404 208 " +
+    streamManager.send("192.168.58.16 - - [14/Jan/2014:08:50:05 -0400] \"GET / HTTP/1.0\" 404 208 " +
                         "\"http://www.example.org\" \"MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727;" +
                         " .NET CLR 3.0.4506.2152; .NET CLR\"");
 
-    streamWriter.send("192.168.12.72 - - [14/Jan/2014:10:06:52 -0400] \"GET /products HTTP/1.1\" 200 581 " +
+    streamManager.send("192.168.12.72 - - [14/Jan/2014:10:06:52 -0400] \"GET /products HTTP/1.1\" 200 581 " +
                         "\"http://www.example.org\" \"Chrome/19.0.1084.15 Safari/536.5\"");
 
-    streamWriter.send("192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] \"GET https://accounts.example.org/signup " +
+    streamManager.send("192.168.99.124 - - [14/Jan/2014:06:51:04 -0400] \"GET https://accounts.example.org/signup " +
                         "HTTP/1.1\" 200 392 \"http://www.example.org\" \"Mozilla/5.0 (compatible; YandexBot/3.0; " +
                         "+http://www.example.org/bots)\"");
 
-    streamWriter.send("192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] \"GET https://accounts.example.org/signup " +
+    streamManager.send("192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] \"GET https://accounts.example.org/signup " +
                         "HTTP/1.0\" 200 809 \"http://www.example.org\" \"example v4.10.5 (www.example.org)\"");
 
     try {
 
-      RuntimeMetrics countMetrics = RuntimeStats.getFlowletMetrics("WebLogAnalyticsApp",
-                                                                   "WebLogAnalyticsFlow",
-                                                                   "pageViewCounter");
+      RuntimeMetrics countMetrics = flowManager.getFlowletMetrics("pageViewCounter");
       countMetrics.waitForProcessed(5, 5, TimeUnit.SECONDS);
 
       // Test service to retrieve page views map.
