@@ -92,16 +92,14 @@ The ``WebLogAnalyticsFlow`` makes use of the ``PageViewCounterFlowlet``:
 
 .. code:: java
 
-  public class WebLogAnalyticsFlow implements Flow {
+  public class WebLogAnalyticsFlow extends AbstractFlow {
 
     @Override
-    public FlowSpecification configure() {
-      return FlowSpecification.Builder.with().
-        setName("WebLogAnalyticsFlow").
-        setDescription("A flow that collects and performs web log analysis").
-        withFlowlets().add("pageViewCounter", new PageViewCounterFlowlet()).
-        connect().fromStream("webLogs").to("pageViewCounter").
-        build();
+    public void configure() {
+      setName("WebLogAnalyticsFlow");
+      setDescription("A flow that collects and performs web log analysis");
+      addFlowlet("pageViewCounter", new PageViewCounterFlowlet());
+      connectStream("webLogs", "pageViewCounter");
     }
   }
 
