@@ -176,22 +176,22 @@ The ``WebLogAnalyticsApp`` can be built and packaged using the Apache Maven comm
 
   $ mvn clean package
 
-Note that the remaining commands assume that the ``cdap-cli.sh`` script is
+Note that the remaining commands assume that the ``cdap`` script is
 available on your PATH. If this is not the case, please add it::
 
   $ export PATH=$PATH:<CDAP home>/bin
 
 If you haven't already started a standalone CDAP installation, start it with the command::
 
-  $ cdap.sh start
+  $ cdap sdk start
 
 We can then deploy the application to a standalone CDAP installation and
 start the flow and service::
 
-  $ cdap-cli.sh -u localhost:10000/default load artifact target/cdap-flume-guide-<version>.jar
-  $ cdap-cli.sh -u localhost:10000/default create app WebLogAnalyticsApp cdap-flume-guide <version> user
-  $ cdap-cli.sh -u localhost:10000/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-  $ cdap-cli.sh -u localhost:10000/default start service WebLogAnalyticsApp.WebLogAnalyticsService
+  $ cdap cli -u localhost:10000/default load artifact target/cdap-flume-guide-<version>.jar
+  $ cdap cli -u localhost:10000/default create app WebLogAnalyticsApp cdap-flume-guide <version> user
+  $ cdap cli -u localhost:10000/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  $ cdap cli -u localhost:10000/default start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow has started, it is ready to receive the web logs from the
 stream. Now, let’s configure and start Flume to push web logs into the
@@ -290,7 +290,7 @@ Query Results
 ``WebLogAnalyticsService`` exposes an HTTP endpoint for you to query the
 results of processing::
 
-  $ cdap-cli.sh -u localhost:10000/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
+  $ cdap cli -u localhost:10000/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
 
 Example output::
 
@@ -319,7 +319,7 @@ Have a question? Discuss at the `CDAP User Mailing List. <https://groups.google.
 License
 =======
 
-Copyright © 2014-2015 Cask Data, Inc.
+Copyright © 2014-2017 Cask Data, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain
