@@ -290,7 +290,7 @@ Query Results
 ``WebLogAnalyticsService`` exposes an HTTP endpoint for you to query the
 results of processing::
 
-  $ cdap cli -u localhost:10000/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
+  $ cdap cli call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
 
 Example output::
 
