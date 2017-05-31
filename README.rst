@@ -10,17 +10,17 @@ Flume and process it in realtime.
 What You Will Build
 ===================
 
-You will build a 
-`CDAP application <http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/applications.html>`__
+You will build a
+`CDAP application <https://docs.cask.co/cdap/current/en/developers-manual/building-blocks/applications.html>`__
 that uses web logs aggregated by Flume to find page view counts. You will:
 
-- Configure Flume to ingest data into a 
-  `CDAP Stream <http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/streams.html>`__;
+- Configure Flume to ingest data into a
+  `CDAP Stream <https://docs.cask.co/cdap/current/en/developers-manual/building-blocks/streams.html>`__;
 - Build a realtime
-  `Flow <http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/flows-flowlets/flows.html>`__
+  `Flow <https://docs.cask.co/cdap/current/en/developers-manual/building-blocks/flows-flowlets/flows.html>`__
   to process the ingested web logs; and
 - Build a
-  `Service <http://docs.cdap.io/cdap/current/en/developers-manual/building-blocks/services.html>`__
+  `Service <https://docs.cask.co/cdap/current/en/developers-manual/building-blocks/services.html>`__
   to serve the analysis results via HTTP.
 
 What You Will Need
@@ -28,7 +28,7 @@ What You Will Need
 
 - `JDK 7 or 8 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`__
 - `Apache Maven 3.0+ <http://maven.apache.org/>`__
-- `CDAP SDK <http://docs.cdap.io/cdap/current/en/developers-manual/getting-started/standalone/index.html>`__
+- `CDAP SDK <https://docs.cask.co/cdap/current/en/developers-manual/getting-started/local-sandbox/index.html>`__
 - `Apache Flume <http://flume.apache.org/download.html>`__
 
 Let’s Build It!
@@ -80,7 +80,7 @@ a Flow, a Service and uses a Dataset:
 
     @Override
     public void configure() {
-      setName("WebLogAnalyticsApp");      
+      setName("WebLogAnalyticsApp");
       addStream(new Stream("webLogs"));
       createDataset("pageViewTable", KeyValueTable.class);
       addFlow(new WebLogAnalyticsFlow());
@@ -143,7 +143,7 @@ For example, given the following event::
 
   192.168.139.1 - - [14/Jan/2014:08:40:43 -0400] "GET https://accounts.example.org/signup HTTP/1.0" 200 809 "http://www.example.org" "example v4.10.5 (www.example.org)"
 
-the extracted requested page URL is ``https://accounts.example.org/signup``. 
+the extracted requested page URL is ``https://accounts.example.org/signup``.
 This will be used as a counter key in the ``pageViewTable`` Dataset.
 
 ``WebLogAnalyticsHandler`` returns a map of the webpage and its page-views
@@ -181,17 +181,17 @@ available on your PATH. If this is not the case, please add it::
 
   $ export PATH=$PATH:<CDAP home>/bin
 
-If you haven't already started a standalone CDAP installation, start it with the command::
+If you haven't already started a CDAP Local Sandbox installation, start it with the command::
 
-  $ cdap.sh start
+  $ cdap sandbox start
 
-We can then deploy the application to a standalone CDAP installation and
+We can then deploy the application to a CDAP Local Sandbox installation and
 start the flow and service::
 
-  $ cdap-cli.sh -u localhost:10000/default load artifact target/cdap-flume-guide-<version>.jar
-  $ cdap-cli.sh -u localhost:10000/default create app WebLogAnalyticsApp cdap-flume-guide <version> user
-  $ cdap-cli.sh -u localhost:10000/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
-  $ cdap-cli.sh -u localhost:10000/default start service WebLogAnalyticsApp.WebLogAnalyticsService
+  $ cdap-cli.sh -u localhost:11015/default load artifact target/cdap-flume-guide-<version>.jar
+  $ cdap-cli.sh -u localhost:11015/default create app WebLogAnalyticsApp cdap-flume-guide <version> user
+  $ cdap-cli.sh -u localhost:11015/default start flow WebLogAnalyticsApp.WebLogAnalyticsFlow
+  $ cdap-cli.sh -u localhost:11015/default start service WebLogAnalyticsApp.WebLogAnalyticsService
 
 Once the flow has started, it is ready to receive the web logs from the
 stream. Now, let’s configure and start Flume to push web logs into the
@@ -290,7 +290,7 @@ Query Results
 ``WebLogAnalyticsService`` exposes an HTTP endpoint for you to query the
 results of processing::
 
-  $ cdap-cli.sh -u localhost:10000/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
+  $ cdap-cli.sh -u localhost:11015/default call service WebLogAnalyticsApp.WebLogAnalyticsService GET /views
 
 Example output::
 
@@ -299,7 +299,7 @@ Example output::
 Related Topics
 ==============
 
-- `Wise: Web Analytics <http://docs.cask.co/cdap/current/en/examples-manual/tutorials/wise.html>`__
+- `Wise: Web Analytics <https://docs.cask.co/cdap/current/en/examples-manual/tutorials/wise.html>`__
   tutorial, part of CDAP
 
 Extend This Example
@@ -319,7 +319,7 @@ Have a question? Discuss at the `CDAP User Mailing List. <https://groups.google.
 License
 =======
 
-Copyright © 2014-2015 Cask Data, Inc.
+Copyright © 2014-2017 Cask Data, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain
